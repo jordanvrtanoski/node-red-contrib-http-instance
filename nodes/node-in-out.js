@@ -184,7 +184,11 @@ module.exports = function (RED) {
             if (node.method.match(/^(post|delete|put|options|patch)$/)) {
                 node.send({ _msgid: msgid, req: req, res: createResponseWrapper(node, res), payload: req.body });
             } else if (node.method == 'get') {
-                node.send({ _msgid: msgid, req: req, res: createResponseWrapper(node, res), payload: req.query });
+		if ((!req.query) || (req.query && Object.keys(req.query).length === 0)) {
+			node.send({ _msgid: msgid, req: req, res: createResponseWrapper(node, res), payload: req.body });
+		} else {
+                	node.send({ _msgid: msgid, req: req, res: createResponseWrapper(node, res), payload: req.query });
+		}
             } else {
                 node.send({ _msgid: msgid, req: req, res: createResponseWrapper(node, res) });
             }
