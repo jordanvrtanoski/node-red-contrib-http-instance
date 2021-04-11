@@ -206,7 +206,7 @@ module.exports = function (RED) {
         const urlencParser = bodyParser.urlencoded({ limit: maxApiRequestSize, extended: true });
 
         if (node.method == 'get') {
-            node.app.get(node.url, cookieParser(), callback, errorHandler);
+            node.app.get(node.url, cookieParser(), jsonParser, urlencParser, rawBodyParser, callback, errorHandler);
         } else if (node.method == 'post') {
             node.app.post(node.url, cookieParser(), jsonParser, urlencParser, multipartParser, rawBodyParser, callback, errorHandler);
         } else if (node.method == 'put') {
